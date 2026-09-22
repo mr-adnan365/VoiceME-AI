@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VoiceMe</title>
+  <meta name="description" content="A private voice assistant that runs entirely on your computer.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/bricolage-grotesque-latin-wdth.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="bar">
+    <h1 class="wordmark">VoiceMe</h1>
+    <p id="status" class="status" data-state="idle" role="status">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span id="status-text">Ready</span>
+    </p>
+  </header>
+
+  <main class="page">
+    <div id="notice" class="notice" role="alert" hidden></div>
+
+    <section class="stage" aria-label="Talk to VoiceMe">
+      <canvas id="string" class="string" aria-hidden="true"></canvas>
+      <p id="caption" class="caption">Press Talk and ask me anything.</p>
+      <div class="controls">
+        <button id="talk" class="talk" type="button" data-mode="idle">Talk</button>
+        <label class="toggle">
+          <input id="continuous" type="checkbox">
+          <span>Keep listening after each reply</span>
+        </label>
+      </div>
+    </section>
+
+    <section id="history" class="history" aria-label="Conversation" hidden>
+      <ol id="log" class="log"></ol>
+      <button id="reset" class="link" type="button">Clear conversation</button>
+    </section>
+
+    <noscript><p class="notice">VoiceMe needs JavaScript to record and play audio.</p></noscript>
+  </main>
+
+  <footer class="foot">
+    <p>Speech recognition, the language model and the voice all run on this computer.</p>
+    <p>Press Space to talk. Press Esc to stop.</p>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

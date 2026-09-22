@@ -1,0 +1,316 @@
+/* VoiceMe
+   One family (Bricolage Grotesque, bundled, SIL OFL) used at two widths:
+   condensed and heavy for the wordmark, normal for everything else.
+   Two voice colors: ultramarine is you, magenta is VoiceMe. */
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("fonts/bricolage-grotesque-latin-wdth.woff2") format("woff2");
+  font-weight: 200 800;
+  font-stretch: 75% 100%;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light dark;
+  --paper: #f2f0fa;
+  --paper-2: #e6e3f4;
+  --ink: #1d1738;
+  --ink-soft: #625c80;
+  --rule: #d3cfe8;
+  --you: #3a2fe0;
+  --reply: #c2185b;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #16122b;
+    --paper-2: #211c3d;
+    --ink: #efecfb;
+    --ink-soft: #a9a3c8;
+    --rule: #332d59;
+    --you: #948cff;
+    --reply: #ff7ab6;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1.0625rem/1.55 "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Noto Sans", sans-serif;
+}
+
+:focus-visible {
+  outline: 3px solid var(--you);
+  outline-offset: 3px;
+}
+
+/* Header ------------------------------------------------------------- */
+
+.bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem var(--gutter);
+}
+
+.wordmark {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-stretch: 75%;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.status-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--ink-soft);
+}
+
+.status[data-state="listening"] .status-dot {
+  background: var(--you);
+}
+
+.status[data-state="thinking"] .status-dot {
+  background: var(--ink);
+}
+
+.status[data-state="speaking"] .status-dot {
+  background: var(--reply);
+}
+
+/* Page ---------------------------------------------------------------- */
+
+.page {
+  flex: 1;
+  width: 100%;
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 0 var(--gutter) 3rem;
+}
+
+.notice {
+  max-width: 44rem;
+  margin: 0 auto 1.5rem;
+  padding: 0.9rem 1.1rem;
+  border-left: 4px solid var(--reply);
+  border-radius: 0 0.5rem 0.5rem 0;
+  background: var(--paper-2);
+  font-size: 0.98rem;
+}
+
+.notice code {
+  padding: 0.1em 0.45em;
+  border-radius: 0.3rem;
+  background: var(--rule);
+  font: 0.92em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  user-select: all;
+}
+
+/* Stage: the string, what is being said, and the one button ----------- */
+
+.stage {
+  padding-top: clamp(1rem, 4vh, 2.5rem);
+  text-align: center;
+}
+
+.string {
+  display: block;
+  width: 100%;
+  height: clamp(9rem, 24vw, 13rem);
+}
+
+.caption {
+  display: grid;
+  place-items: center;
+  height: 3.45em;
+  max-width: 40rem;
+  margin: 1rem auto 0;
+  overflow: hidden;
+  font-size: clamp(1.5rem, 1rem + 2vw, 2.25rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  margin-top: 1.5rem;
+}
+
+.talk {
+  min-width: 10rem;
+  padding: 0.95rem 2.25rem;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font: inherit;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 120ms, color 120ms, border-color 120ms;
+}
+
+.talk:hover {
+  opacity: 0.9;
+}
+
+.talk:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.talk[data-mode="listening"] {
+  background: var(--you);
+}
+
+.talk[data-mode="speaking"] {
+  background: var(--reply);
+}
+
+.talk[data-mode="thinking"] {
+  border-color: var(--ink);
+  background: transparent;
+  color: var(--ink);
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.toggle input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0;
+  accent-color: var(--you);
+}
+
+/* Conversation ---------------------------------------------------------- */
+
+.history {
+  max-width: 44rem;
+  margin: clamp(2rem, 6vh, 3.5rem) auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.history[hidden] {
+  display: none;
+}
+
+.log {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.message {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 0.75rem;
+  align-items: baseline;
+}
+
+.who {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.message[data-who="you"] .who {
+  color: var(--you);
+}
+
+.message[data-who="voiceme"] .who {
+  color: var(--reply);
+}
+
+.message p {
+  max-width: 62ch;
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.link {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 0.95rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: var(--ink);
+}
+
+/* Footer ---------------------------------------------------------------- */
+
+.foot {
+  padding: 1.5rem var(--gutter) 2rem;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.foot p {
+  margin: 0.2rem 0;
+}
+
+@media (max-width: 30rem) {
+  .message {
+    grid-template-columns: 4.5rem 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
